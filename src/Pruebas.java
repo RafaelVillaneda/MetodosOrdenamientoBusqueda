@@ -6,12 +6,12 @@ class MetodosOrdenamientos{
 	static class Burbuja{
 		static long tTnicio,tFin;
 		//Llenar con 1 millon de datos 
-		public static void ordenacionBurbuja1(int numeros[]) {
+		public static void ordenacionBurbuja1(long numeros[]) {
 			tTnicio=System.nanoTime();
 			for(int i=1;i<=numeros.length-1;i++) {
 				for(int j=0;j<numeros.length-i;j++) {
 					if(numeros[j]>numeros[j+1]) {
-						int aux=numeros[j];
+						long aux=numeros[j];
 						numeros[j]=numeros[j+1];
 						numeros[j+1]=aux;
 					}//IF
@@ -63,7 +63,7 @@ class MetodosOrdenamientos{
 	     	    tFin = System.nanoTime();
 				System.out.println("Tiempo de ejecucion en ordenamiento por burbuja: " + (tFin-tTnicio));
 	        }
-		 public int [] ingregarDatos() {
+		 public static int [] ingregarDatos() {
 			 Scanner entrada=new Scanner(System.in);
 			 System.out.println("Cuantos datos vas a ingresar?");
 			 int tamaño=entrada.nextInt();
@@ -77,7 +77,7 @@ class MetodosOrdenamientos{
 		 }
 		 
 		
-		public static void mostrarVector(int numeros[]) {
+		public static void mostrarVector(long numeros[]) {
 			System.out.println(Arrays.toString(numeros));
 		}
 	}
@@ -86,12 +86,48 @@ class MetodosOrdenamientos{
 public class Pruebas {
 
 	public static void main(String[] args) {
+		Scanner entrada=new Scanner(System.in);
 		System.out.println("-------Burbuja----------");
-		int numeros []= {6,2,9,7,1,0,4};
+		long numeros []= {6,2,9,7,1,0,4};
 		MetodosOrdenamientos.Burbuja.mostrarVector(numeros);
 		MetodosOrdenamientos.Burbuja.ordenacionBurbuja1(numeros);
 		System.out.println("Ordenado");
 		MetodosOrdenamientos.Burbuja.mostrarVector(numeros);
+		System.out.println("Menu metodo de ordenmiento burbuja");
+		boolean bandera=false;
+		String op="";
+		while(bandera==false) {
+			System.out.println("Elige una opcion:");
+			System.out.println("1-> Crear nuevo vector");
+			System.out.println("2-> Burbuja 1");
+			System.out.println("3-> Burbuja 2");
+			System.out.println("4-> Burbuja 3");
+			System.out.println("5-> Salir");
+			op=entrada.nextLine();
+			switch (op) {
+			case "1":
+				MetodosOrdenamientos.Burbuja.ingregarDatos();
+				break;
+			case "2":
+				MetodosOrdenamientos.Burbuja.ordenacionBurbuja1(numeros);
+				MetodosOrdenamientos.Burbuja.mostrarVector(numeros);
+				break;
+			case "3":
+				MetodosOrdenamientos.Burbuja.ordenacionBurbuja2(numeros);
+				MetodosOrdenamientos.Burbuja.mostrarVector(numeros);
+				break;
+			case "4":
+				MetodosOrdenamientos.Burbuja.ordenacionBurbuja2(numeros);
+				MetodosOrdenamientos.Burbuja.mostrarVector(numeros);
+				break;
+			case "5":
+				System.out.println("Saliendo.....");
+				bandera=true;
+				break;
+			default:
+				break;
+			}
+		}
 		
 	}
 
