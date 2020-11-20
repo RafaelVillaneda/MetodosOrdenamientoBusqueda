@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 class MetodosOrdenamientos{
 	//Agregar Menu!!!!
@@ -26,9 +27,55 @@ class MetodosOrdenamientos{
 		 */
 		//Hacer burbuja 2 y 3
 		//Tareas
-		public void ordenacionBurbuja2(int numeros[]) {}
+		public static void ordenacionBurbuja2(long []numeros) {
+			tTnicio = System.nanoTime();
+            for(int i=1; i<numeros.length; i++) {
+				
+				for(int j=0; j<numeros.length-i; j++) {
+					
+					if(numeros[j]>numeros[j+1]) {
+						long aux = numeros[j];
+						numeros[j] = numeros[j+1];
+						numeros[j+1] = aux;
+					}
+				}
+			}
+            tFin = System.nanoTime();
+			System.out.println("Tiempo de ejecucion en ordenamiento por burbuja: " + (tFin-tTnicio));
+		}
 		
-		public void ordenacionBurbuja3(int numeros[]) {}
+		 public static void ordenacionBurbuja3(long []numeros) {
+			 tTnicio = System.nanoTime();
+	           int i=1;
+	     	   do {
+	     		   
+	     		   for(int j=0; j<numeros.length-i; j++) {
+	 					
+	 					if(numeros[j]>numeros[j+1]) {
+	 						long aux = numeros[j];
+	 						numeros[j] = numeros[j+1];
+	 						numeros[j+1] = aux;
+	 					}
+	 				}
+	     		   
+	     		   i=1+i;
+	     	   }while(i<numeros.length);
+	     	    tFin = System.nanoTime();
+				System.out.println("Tiempo de ejecucion en ordenamiento por burbuja: " + (tFin-tTnicio));
+	        }
+		 public int [] ingregarDatos() {
+			 Scanner entrada=new Scanner(System.in);
+			 System.out.println("Cuantos datos vas a ingresar?");
+			 int tamaño=entrada.nextInt();
+			 int vector[]=new int[tamaño];
+			 for(int i=0;i<tamaño;i++) {
+				 System.out.println("Ingresa el dato "+(i+1));
+				 int dato=entrada.nextInt();
+				 vector[i]=dato;
+			 }
+			 return null;
+		 }
+		 
 		
 		public static void mostrarVector(int numeros[]) {
 			System.out.println(Arrays.toString(numeros));
