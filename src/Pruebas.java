@@ -3,6 +3,15 @@ import java.util.Scanner;
 
 class MetodosOrdenamientos{
 	//Agregar Menu!!!!
+	int [] contador=new int[3];// 1-> recorridos 2-> intercambios 3-> comparaciones
+	public void mostrarContador() {
+		System.out.println("Numero de recorridos-> "+contador[0]);
+		System.out.println("Numero de Intercambios-> "+contador[1]);
+		System.out.println("Numero de Comparaciones-> "+contador[2]);
+		contador[0]=0;
+		contador[1]=0;
+		contador[2]=0;
+	}
 	static class Burbuja{
 		static long tTnicio,tFin;
 		//Llenar con 1 millon de datos 
@@ -118,22 +127,64 @@ class MetodosOrdenamientos{
 	}//Metodo de ordenamiento INseccion
 	
 	public void ordenamientoSeleccion(int [] numeros) {
+		long comparaciones = 0,intercambios = 0,recorridos=0;
 		for (int i=0;i<numeros.length-1;i++) {
+			
 			for(int j=0;j<numeros.length;j++) {
+				comparaciones++;
 				if(numeros[i]>numeros[j]) {
 					int minimo=numeros[i];
 					numeros[i]=numeros[j];
 					numeros[j]=minimo;
+					intercambios++;
 				}
+				recorridos++;
 			}
+			recorridos++;
 		}
+		System.out.println("Recorridos"+recorridos);
+		System.out.println("Intercambios: "+intercambios);
+		System.out.println("Comparaciones: "+comparaciones);
 	}
 	
+	public int [] ordenamientoQuicksort(int[] numeros,int izq,int der) {
+            int pivote = numeros[izq];
+            int i = izq, j = der;
+            int aux;
+            while(i<j) {
+            	contador[0]++;
+                while(numeros[i]<=pivote && i<j) {
+                	i++;
+                	contador[0]++;
+                }
+                while(numeros[j]>pivote) {
+                	j--;
+                	contador[0]++;
+                }
+                if(i<j) {
+                	contador[1]++;
+                    aux = numeros[i];
+                    numeros[i]=numeros[j];
+                    numeros[j] = aux;
+                }
+            }
+            contador[1]++;
+            numeros[izq]=numeros[j];
+            numeros[j]=pivote;
+            contador[2]++;
+            if(izq<j-1)
+                ordenamientoQuicksort(numeros,izq,j-1);
+            contador[2]++;
+            if(j+1<der)
+            	ordenamientoQuicksort(numeros, j+1, der);
+            return numeros;
+	}
 }
 
 public class Pruebas {
 
 	public static void main(String[] args) {
+		int copi[];
 		long tTnicio,tFin;
 		MetodosOrdenamientos orden=new MetodosOrdenamientos();
 		Scanner entrada=new Scanner(System.in);
@@ -240,39 +291,42 @@ public class Pruebas {
 			case "2":
 				tFin=tTnicio=0;
 				System.out.println("Ordenar 1000 elementos");
+				copi=Arrays.copyOf(vector1000elementos, vector1000elementos.length-1);
 				tTnicio=System.nanoTime();
-				orden.ordenarInserccion(vector1000elementos);
+				orden.ordenarInserccion(copi);
 				tFin=System.nanoTime();
 				System.out.println("Tardo: "+(tFin-tTnicio));
 				break;
 			case "3":
 				tFin=tTnicio=0;
 				System.out.println("Ordenar 10000 elementos");
+				copi=Arrays.copyOf(vector10000elementos, vector10000elementos.length-1);
 				tTnicio=System.nanoTime();
-				orden.ordenarInserccion(vector10000elementos);
+				orden.ordenarInserccion(copi);
 				tFin=System.nanoTime();
 				System.out.println("Tardo: "+(tFin-tTnicio));
 				break;
 			case "4":
 				tFin=tTnicio=0;
 				System.out.println("Ordenar 100000 elementos");
+				copi=Arrays.copyOf(vector100000elementos,vector100000elementos.length-1);
 				tTnicio=System.nanoTime();
-				orden.ordenarInserccion(vector100000elementos);
+				orden.ordenarInserccion(copi);
 				tFin=System.nanoTime();
 				System.out.println("Tardo: "+(tFin-tTnicio));
 				break;
 			case "5":
 				tFin=tTnicio=0;
 				System.out.println("Ordenar 1000000 elementos");
-				System.out.println("Proximamamente....");
-				/*
+				copi=Arrays.copyOf(vector1000000elementos,vector1000000elementos.length-1);
 				System.out.println("Ordenar 1000000 elementos");
 				tTnicio=System.nanoTime();
-				orden.ordenarInserccion(vector1000000elementos);
+				orden.ordenarInserccion(copi);
 				tFin=System.nanoTime();
 				System.out.println("Tardo: "+(tFin-tTnicio));
-				*/
+				
 				break;
+
 			case "6":
 				System.out.println("Saliendo....");
 				banderaIn=true;
@@ -290,6 +344,78 @@ public class Pruebas {
 			orden.ordenamientoSeleccion(numerosSeleccion);
 			System.out.println("Numeros ordenados: "+Arrays.toString(numerosSeleccion));
 			break;
+		case "4":
+			String eleccion4;
+			boolean banderaQ=false;
+			do {
+			System.out.println("1-> Ordenar elementos precargados");
+			System.out.println("2-> Ordenar 1000 elementos");
+			System.out.println("3-> Ordenar 10000");
+			System.out.println("4-> Ordenar 100000");
+			System.out.println("5-> Ordenar 1000000");
+			System.out.println("6-> Salir");
+			eleccion4=entrada.nextLine();
+			switch (eleccion4) {
+			case "1":
+				tFin=tTnicio=0;
+				System.out.println("Numeros desordenados: "+Arrays.toString(numerosDesordenados));
+				tTnicio=System.nanoTime();
+				orden.ordenarInserccion(numerosDesordenados);
+				System.out.println("Numeros ordenados: "+Arrays.toString(numerosDesordenados));
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "2":
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 1000 elementos");
+				copi=Arrays.copyOf(vector1000elementos, vector1000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoQuicksort(copi,0,copi.length-1);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "3":
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 10000 elementos");
+				copi=Arrays.copyOf(vector10000elementos, vector10000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoQuicksort(copi,0,copi.length-1);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "4":
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 100000 elementos");
+				copi=Arrays.copyOf(vector100000elementos,vector100000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoQuicksort(copi,0,copi.length-1);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "5":
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 1000000 elementos");
+				copi=Arrays.copyOf(vector1000000elementos,vector1000000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoQuicksort(copi,0,copi.length-1);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+
+			case "6":
+				System.out.println("Saliendo....");
+				banderaQ=true;
+				break;
+			default:
+				break;
+			}
+			}while(banderaQ==false);
+			break;
 		case "12":
 			System.out.println("Saliendo....");
 			menu=true;
@@ -298,8 +424,9 @@ public class Pruebas {
 		}
 		}
 		System.out.println("----------------------");
-		
-		
+		int[]array= {30,12,5,2,8,3,1,7,22};
+		System.out.println("Arreglo sin ordenar"+Arrays.toString(array));
+		System.out.println("Arreglo ordenado: "+Arrays.toString(orden.ordenamientoQuicksort(array, 0, array.length-1)));
 	}
 
 }
