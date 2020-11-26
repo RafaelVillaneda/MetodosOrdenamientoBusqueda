@@ -179,6 +179,32 @@ class MetodosOrdenamientos{
             	ordenamientoQuicksort(numeros, j+1, der);
             return numeros;
 	}
+
+	public void ordenamientoShelsort(int[] numeros) {
+		
+		int intervalo= numeros.length/2;
+		
+		while(intervalo>0) {
+			for(int i=intervalo;i<numeros.length;i++) {
+				int j= i-intervalo;
+				while(j>=0) {
+					int k=j+intervalo;
+					if(numeros[j]<=numeros[k]) {
+						j=-1;
+					}else {
+						int aux=numeros[j];
+						numeros[j]=numeros[k];
+						numeros[k]=aux;
+						j-=intervalo;
+					}
+				}
+				
+			}
+			intervalo=intervalo/2;
+		}
+		
+	}//Metodo
+	
 }
 
 public class Pruebas {
@@ -424,9 +450,12 @@ public class Pruebas {
 		}
 		}
 		System.out.println("----------------------");
-		int[]array= {30,12,5,2,8,3,1,7,22};
-		System.out.println("Arreglo sin ordenar"+Arrays.toString(array));
-		System.out.println("Arreglo ordenado: "+Arrays.toString(orden.ordenamientoQuicksort(array, 0, array.length-1)));
+		int[]numeros1= {12,34,54,2,3};
+		System.out.println("Arreglo desordenado"+Arrays.toString(numeros1));
+		orden.ordenamientoShelsort(numeros1);
+		System.out.println("Arreglo Ordenado"+Arrays.toString(numeros1));
+		System.out.println("");
+		
 	}
 
 }
