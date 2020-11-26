@@ -180,7 +180,7 @@ class MetodosOrdenamientos{
             return numeros;
 	}
 
-	public void ordenamientoShelsort(int[] numeros) {
+	public void ordenamientoShellsort(int[] numeros) {
 		
 		int intervalo= numeros.length/2;
 		
@@ -442,6 +442,32 @@ public class Pruebas {
 			}
 			}while(banderaQ==false);
 			break;
+		case "5":
+			System.out.println("Metodo de ordenamiento por shellSort");
+			int[]numeros1= {12,34,54,2,3};
+			System.out.println("Arreglo desordenado"+Arrays.toString(numeros1));
+			orden.ordenamientoShellsort(numeros1);
+			System.out.println("Arreglo Ordenado"+Arrays.toString(numeros1));
+			break;
+		case "6":
+			
+			break;
+		case "7":
+			
+			break;
+			
+		case "8":
+			
+			break;
+		case "9":
+			
+			break;
+		case "10":
+			
+			break;
+		case "11":
+			
+			break;
 		case "12":
 			System.out.println("Saliendo....");
 			menu=true;
@@ -450,10 +476,7 @@ public class Pruebas {
 		}
 		}
 		System.out.println("----------------------");
-		int[]numeros1= {12,34,54,2,3};
-		System.out.println("Arreglo desordenado"+Arrays.toString(numeros1));
-		orden.ordenamientoShelsort(numeros1);
-		System.out.println("Arreglo Ordenado"+Arrays.toString(numeros1));
+		
 		System.out.println("");
 		
 	}
