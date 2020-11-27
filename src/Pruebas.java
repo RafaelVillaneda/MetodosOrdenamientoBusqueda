@@ -185,26 +185,65 @@ class MetodosOrdenamientos{
 		int intervalo= numeros.length/2;
 		
 		while(intervalo>0) {
+			contador[2]++;
 			for(int i=intervalo;i<numeros.length;i++) {
 				int j= i-intervalo;
 				while(j>=0) {
 					int k=j+intervalo;
+					contador[2]++;
 					if(numeros[j]<=numeros[k]) {
 						j=-1;
 					}else {
 						int aux=numeros[j];
+						contador[1]++;
 						numeros[j]=numeros[k];
 						numeros[k]=aux;
 						j-=intervalo;
 					}
+					contador[0]++;
 				}
-				
+				contador[0]++;
 			}
 			intervalo=intervalo/2;
+			contador[0]++;
 		}
 		
 	}//Metodo
 	
+	
+	
+	public void ordenamientoRadix(int[]numeros) {
+	      if(numeros.length == 0)
+	          return;
+	          int[][] np = new int[numeros.length][2];
+	          int[] q = new int[0x100];
+	          int i,j,k,l,f = 0;
+	          for(k=0;k<4;k++) {
+	             for(i=0;i<(np.length-1);i++)
+	             np[i][1] = i+1;
+	             np[i][1] = -1;
+	             for(i=0;i<q.length;i++)
+	             q[i] = -1;
+	             for(f=i=0;i<numeros.length;i++) {
+	                j = ((0xFF<<(k<<3))&numeros[i])>>(k<<3);
+	                if(q[j] == -1)
+	                l = q[j] = f;
+	             else {
+	                l = q[j];
+	                while(np[l][1] != -1)
+	                l = np[l][1];
+	                np[l][1] = f;
+	                l = np[l][1];
+	             }
+	             f = np[f][1];
+	             np[l][0] = numeros[i];
+	             np[l][1] = -1;
+	          }
+	          for(l=q[i=j=0];i<0x100;i++)
+	          for(l=q[i];l!=-1;l=np[l][1])
+	        	  numeros[j++] = np[l][0];
+	       }//for
+	}//metodo
 }
 
 public class Pruebas {
@@ -444,10 +483,82 @@ public class Pruebas {
 			break;
 		case "5":
 			System.out.println("Metodo de ordenamiento por shellSort");
-			int[]numeros1= {12,34,54,2,3};
-			System.out.println("Arreglo desordenado"+Arrays.toString(numeros1));
-			orden.ordenamientoShellsort(numeros1);
-			System.out.println("Arreglo Ordenado"+Arrays.toString(numeros1));
+			String eleccionShell;
+			boolean banderaShell=false;
+			do {
+			System.out.println("1-> Ordenar elementos precargados");
+			System.out.println("2-> Ordenar 1000 elementos");
+			System.out.println("3-> Ordenar 10000");
+			System.out.println("4-> Ordenar 100000");
+			System.out.println("5-> Ordenar 1000000");
+			System.out.println("6-> Salir");
+			eleccion=entrada.nextLine();
+			switch (eleccion) {
+			case "1":
+				copi=null;
+				tFin=tTnicio=0;
+				System.out.println("Numeros desordenados: "+Arrays.toString(numerosDesordenados));
+				tTnicio=System.nanoTime();
+				orden.ordenamientoShellsort(numerosDesordenados);
+				tFin=System.nanoTime();
+				System.out.println("Numeros ordenados: "+Arrays.toString(numerosDesordenados));
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "2":
+				copi=null;
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 1000 elementos");
+				copi=Arrays.copyOf(vector1000elementos, vector1000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoShellsort(copi);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "3":
+				copi=null;
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 10000 elementos");
+				copi=Arrays.copyOf(vector10000elementos, vector10000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoShellsort(copi);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "4":
+				copi=null;
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 100000 elementos");
+				copi=Arrays.copyOf(vector100000elementos,vector100000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoShellsort(copi);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "5":
+				copi=null;
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 1000000 elementos");
+				copi=Arrays.copyOf(vector1000000elementos,vector1000000elementos.length-1);
+				System.out.println("Ordenar 1000000 elementos");
+				tTnicio=System.nanoTime();
+				orden.ordenamientoShellsort(copi);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "6":
+				System.out.println("Saliendo....");
+				banderaShell=true;
+				break;
+			default:
+				break;
+				}//Switch
+			}while(banderaShell==false);
+			
 			break;
 		case "6":
 			
@@ -476,7 +587,11 @@ public class Pruebas {
 		}
 		}
 		System.out.println("----------------------");
-		
+		System.out.println("Radix");
+		int[]numerosss= {15,54,87,89,56,32,58,29,73};
+		System.out.println("Desordenados: "+Arrays.toString(numerosss));
+		orden.ordenamientoRadix(numerosss);
+		System.out.println("Ordenados: "+Arrays.toString(numerosss));
 		System.out.println("");
 		
 	}
