@@ -279,6 +279,76 @@ class MetodosOrdenamientos{
 		
 	}
 	
+	public int [] ordenamientoMezclaDirecto(int arreglo[]) {
+		int i,j,k;
+		contador[2]++;
+		if(arreglo.length>1) {
+			int numElementosIzq=arreglo.length/2;
+			int numElmentosDer=arreglo.length-numElementosIzq;
+			
+			int arregloIzquierdo[]=new int[numElementosIzq];
+			int arregloDerecha[]=new int[numElmentosDer];
+			//Copiado elementos izquierdo
+			for(i=0;i<numElementosIzq;i++) {
+				arregloIzquierdo[i]=arreglo[i];
+				contador[0]++;
+			}
+			//arreglo derecho
+			i=0;
+			for(i=numElementosIzq;i<numElementosIzq+numElmentosDer;i++) {
+				arregloDerecha[i-numElementosIzq]=arreglo[i];
+				contador[0]++;
+			}
+			/*La separacion
+			System.out.println(Arrays.toString(arregloDerecha));
+			System.out.println(Arrays.toString(arregloIzquierdo));
+			*/
+			
+			//Ahora se aplica la recursividad
+			arregloIzquierdo=ordenamientoMezclaDirecto(arregloIzquierdo);
+			arregloDerecha=ordenamientoMezclaDirecto(arregloDerecha);
+			i=j=k=0;
+			/*
+			 * i=pocicion en el arreglo original
+			 * j=pocicion en el arreglo izquierdo
+			 * k=pocicion en el arreglo derecho
+			 */
+			while(arregloIzquierdo.length!=j && arregloDerecha.length!=k) {//Ordena el arreglo (Sublistas)
+				contador[2]++;
+				if(arregloIzquierdo[j]<arregloDerecha[k]) {
+					contador[1]++;
+					arreglo[i]=arregloIzquierdo[j];
+					i++;
+					j++;
+				}else {
+					contador[1]++;
+					arreglo[i]=arregloDerecha[k];
+					i++;
+					k++;
+				}
+				contador[0]++;
+			}
+			//Arreglo final parte izquierda
+			while(arregloIzquierdo.length!=j) {
+				contador[1]++;
+				arreglo[i]=arregloIzquierdo[j];
+				i++;
+				j++;
+				contador[0]++;
+			}
+			//Arreglo final parte derecha
+			while(arregloDerecha.length!=k) {
+				contador[1]++;
+				arreglo[i]=arregloDerecha[k];
+				i++;
+				k++;
+				contador[0]++;
+			}
+		}//IF
+		
+		return arreglo;
+	}
+
 }//Clase
 
 
@@ -683,7 +753,82 @@ public class Pruebas {
 			break;
 			
 		case "8":
-			
+			System.out.println("Metodo de ordenamiento por Radix");
+			String eleccionMezclaDirecta;
+			boolean MezclaDirecta=false;
+			do {
+			System.out.println("1-> Ordenar elementos precargados");
+			System.out.println("2-> Ordenar 1000 elementos");
+			System.out.println("3-> Ordenar 10000");
+			System.out.println("4-> Ordenar 100000");
+			System.out.println("5-> Ordenar 1000000 ");
+			System.out.println("6-> Salir");
+			eleccionMezclaDirecta=entrada.nextLine();
+			switch (eleccionMezclaDirecta) {
+			case "1":
+				copi=null;
+				copi=Arrays.copyOf(numerosDesordenados, numerosDesordenados.length-1);
+				tFin=tTnicio=0;
+				System.out.println("Numeros desordenados: "+Arrays.toString(numerosDesordenados));
+				tTnicio=System.nanoTime();
+				orden.ordenamientoMezclaDirecto(copi);
+				tFin=System.nanoTime();
+				System.out.println("Numeros ordenados: "+Arrays.toString(numerosDesordenados));
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "2":
+				copi=null;
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 1000 elementos");
+				copi=Arrays.copyOf(vector1000elementos, vector1000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoMezclaDirecto(copi);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "3":
+				copi=null;
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 10000 elementos");
+				copi=Arrays.copyOf(vector10000elementos, vector10000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoMezclaDirecto(copi);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "4":
+				copi=null;
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 100000 elementos");
+				copi=Arrays.copyOf(vector100000elementos,vector100000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoMezclaDirecto(copi);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "5":
+				copi=null;
+				tFin=tTnicio=0;
+				System.out.println("Ordenar 1000000 elementos");
+				copi=Arrays.copyOf(vector1000000elementos,vector1000000elementos.length-1);
+				tTnicio=System.nanoTime();
+				orden.ordenamientoMezclaDirecto(copi);
+				tFin=System.nanoTime();
+				System.out.println("Tardo: "+(tFin-tTnicio));
+				orden.mostrarContador();
+				break;
+			case "6":
+				System.out.println("Saliendo....");
+				MezclaDirecta=true;
+				break;
+			default:
+				break;
+				}//Switch
+			}while(MezclaDirecta==false);
 			break;
 		case "9":
 			
