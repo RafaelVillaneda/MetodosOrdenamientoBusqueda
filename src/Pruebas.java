@@ -349,6 +349,110 @@ class MetodosOrdenamientos{
 		return arreglo;
 	}
 
+	public void ordenamientoMezclaDirecto1(int arreglo[]) {
+		int i,j,k;
+		contador[2]++;
+		if(arreglo.length>1) {
+			int numElementosIzq=arreglo.length/2;
+			int numElmentosDer=arreglo.length-numElementosIzq;
+			
+			int arregloIzquierdo[]=new int[numElementosIzq];
+			int arregloDerecha[]=new int[numElmentosDer];
+			//Copiado elementos izquierdo
+			for(i=0;i<numElementosIzq;i++) {
+				arregloIzquierdo[i]=arreglo[i];
+				contador[0]++;
+			}
+			//arreglo derecho
+			i=0;
+			for(i=numElementosIzq;i<numElementosIzq+numElmentosDer;i++) {
+				arregloDerecha[i-numElementosIzq]=arreglo[i];
+				contador[0]++;
+			}
+			/*La separacion
+			System.out.println(Arrays.toString(arregloDerecha));
+			System.out.println(Arrays.toString(arregloIzquierdo));
+			*/
+			
+			//Ahora se aplica la recursividad
+			arregloIzquierdo=ordenamientoMezclaDirecto(arregloIzquierdo);
+			arregloDerecha=ordenamientoMezclaDirecto(arregloDerecha);
+			i=j=k=0;
+			/*
+			 * i=pocicion en el arreglo original
+			 * j=pocicion en el arreglo izquierdo
+			 * k=pocicion en el arreglo derecho
+			 */
+			while(arregloIzquierdo.length!=j && arregloDerecha.length!=k) {//Ordena el arreglo (Sublistas)
+				contador[2]++;
+				if(arregloIzquierdo[j]<arregloDerecha[k]) {
+					contador[1]++;
+					arreglo[i]=arregloIzquierdo[j];
+					i++;
+					j++;
+				}else {
+					contador[1]++;
+					arreglo[i]=arregloDerecha[k];
+					i++;
+					k++;
+				}
+				contador[0]++;
+			}
+			//Arreglo final parte izquierda
+			while(arregloIzquierdo.length!=j) {
+				contador[1]++;
+				arreglo[i]=arregloIzquierdo[j];
+				i++;
+				j++;
+				contador[0]++;
+			}
+			//Arreglo final parte derecha
+			while(arregloDerecha.length!=k) {
+				contador[1]++;
+				arreglo[i]=arregloDerecha[k];
+				i++;
+				k++;
+				contador[0]++;
+			}
+		}//IF
+		
+	}
+	
+	public void ordenamientoMezclaNatural(int [] numeros) {
+		int izquierda =0;
+		int izq =0;
+		int derecha = numeros.length-1;//Sin el error de nullPointerExepcion
+		int der = derecha;
+		boolean ordenado = false;
+		
+		long ini = System.nanoTime();
+		do {
+			ordenado = true;
+			izquierda = 0;
+			while(izquierda<derecha) {
+				izq =izquierda;
+				while(izq < derecha && numeros[izq]<=numeros[izq+1]) {
+					izq++;
+				}
+				der = izq +1;
+				while(der==derecha-1 || der<derecha && numeros[der]<=numeros[der+1]) {
+					der++;
+				}
+				if(der<=derecha) {
+					ordenamientoMezclaDirecto1(numeros);
+					
+					ordenado = false;
+				}
+				izquierda=izq;
+				
+			}
+		}while(!ordenado);
+		long fin = System.nanoTime();
+		
+		
+	
+	}
+
 }//Clase
 
 
@@ -852,6 +956,12 @@ public class Pruebas {
 		int segundo[]= {30,100};
 		System.out.println(Arrays.toString(primero)+" -- "+Arrays.toString(segundo));
 		System.out.println("Aray ordenado: "+Arrays.toString(orden.ordenarIntercalacion(primero, segundo)));
+		System.out.println("-----------------Metodo de orenamiento por mezcla natural----------------------");
+		int [] numerosPorMezclaNatural= {6,12,19,1,23,57,40,8};
+		System.out.println("Arreglo desordenado: "+Arrays.toString(numerosPorMezclaNatural));
+		orden.ordenamientoMezclaNatural(numerosPorMezclaNatural);
+		System.out.println("Arreglo ordenado: "+Arrays.toString(numerosPorMezclaNatural));
+		
 	}
 
 }
